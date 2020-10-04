@@ -43,7 +43,15 @@ class _DrawState extends State<Draw> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                          icon: Icon(Icons.album),
+                          icon: Icon(
+                            Icons.album,
+                            color: (selectedMode == SelectedMode.StrokeWidth)
+                                ? selectedColor
+                                : Colors.black38,
+                            size: (selectedMode == SelectedMode.StrokeWidth)
+                                ? 35.0
+                                : 25.0,
+                          ),
                           onPressed: () {
                             setState(() {
                               if (selectedMode == SelectedMode.StrokeWidth)
@@ -52,7 +60,13 @@ class _DrawState extends State<Draw> {
                             });
                           }),
                       IconButton(
-                          icon: Icon(Icons.opacity),
+                          icon: Icon(Icons.opacity,
+                              color: (selectedMode == SelectedMode.Opacity)
+                                  ? selectedColor
+                                  : Colors.black38,
+                              size: (selectedMode == SelectedMode.Opacity)
+                                  ? 35.0
+                                  : 25.0),
                           onPressed: () {
                             setState(() {
                               if (selectedMode == SelectedMode.Opacity)
@@ -61,17 +75,20 @@ class _DrawState extends State<Draw> {
                             });
                           }),
                       IconButton(
-                          icon: Icon(Icons.clear),
+                          icon: Icon(
+                            Icons.clear,
+                            color: Colors.redAccent,
+                          ),
                           onPressed: () {
                             setState(() {
-                              showSlider = false;
+                              showSlider = !showSlider;
                               points.clear();
                             });
                           }),
                     ],
                   ),
                   Visibility(
-                    child: (!showSlider)
+                    child: (showSlider)
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: getColorList(),
@@ -84,6 +101,7 @@ class _DrawState extends State<Draw> {
                                 ? 50.0
                                 : 1.0,
                             min: 0.0,
+                            activeColor: selectedColor,
                             onChanged: (val) {
                               setState(() {
                                 if (selectedMode == SelectedMode.StrokeWidth)
@@ -157,14 +175,18 @@ class _DrawState extends State<Draw> {
         child: (selectedColor == color)
             ? Container(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                height: 45,
-                width: 45,
-                color: color,
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: color,
+                  border: Border.all(color: Colors.white38, width: 3.0),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
               )
             : Container(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                height: 36,
-                width: 36,
+                height: 33,
+                width: 33,
                 color: color,
               ),
         borderRadius: BorderRadius.circular(10.0),
